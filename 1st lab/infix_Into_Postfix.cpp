@@ -2,10 +2,11 @@
 #include<stack>
 using namespace std;
 
+// Function to check if the character is an operator
 bool isOperator(char c) {
     return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^');
 }
-
+// Function to return precedence of operators
 int precedence(char c) {
     if (c == '^')
         return 3;
@@ -17,6 +18,7 @@ int precedence(char c) {
         return -1;
 }
 
+// Function to convert infix to postfix
 string InfixToPostfix(stack<char> s, string infix) {
     string postfix;
     for (int i = 0; i < infix.length(); i++) {
