@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#define SIZE 2
+#define SIZE 1
 
 class Stack {
 private:
