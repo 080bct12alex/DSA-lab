@@ -1,0 +1,158 @@
+Write an algorithm for Double Ended Queue for following cases:
+1. Enqueue from FRONT end    //normal
+2. Dequeue from REAR end     //normal
+
+3. Enqueue from FRONT end    //special
+4. Dequeue from REAR end     //special
+
+
+
+
+#rear = rear - 1  VS   rear = (rear - 1 + size) % size
+
+
+It is used according to move forward or backward
+enqueueRear()	➡️ forward	Add at rear, move rear right	rear = (rear + 1) % size
+dequeueFront()	➡️ forward	Remove from front	            front = (front + 1) % size
+enqueueFront()	⬅️ backward	Add at front, move front left	front = (front - 1 + size) % size
+dequeueRear()	⬅️ backward	Remove from rear	            rear = (rear - 1 + size) % size
+
+Note
+rear = (rear - 1 + size) % size
+It ensures:
+
+No negative index (important in C++)
+
+Circular movement within array bounds
+
+Correct behavior for dequeueRear() or moving rear backward
+
+
+
+
+
+# Why is modular arithmetic like (rear - 1 + size) % size only used in dequeueRear or enqueueFront, and not in enqueueRear or dequeueFront?”
+
+✅ Short Answer:
+Because:
+
+enqueueRear and dequeueFront move forward → use (index + 1) % size
+
+enqueueFront and dequeueRear move backward → need (index - 1 + size) % size to wrap correctly
+
+
+enqueueRear()	➡️ forward	Add at rear, move rear right	rear = (rear + 1) % size
+dequeueFront()	➡️ forward	Remove from front	            front = (front + 1) % size
+enqueueFront()	⬅️ backward	Add at front, move front left	front = (front - 1 + size) % size
+dequeueRear()	⬅️ backward	Remove from rear	            rear = (rear - 1 + size) % size
+
+🧠 Why (index + 1) % size for moving forward?
+Because:
+
+If you're at last index (rear == size - 1) and add 1, you must go to index 0
+
+(rear + 1) % size does exactly that
+
+Example for size = 4:
+
+rear = 3 → rear = (3 + 1) % 4 = 0
+
+✅ Wraps forward
+
+
+🧠 Why (index - 1 + size) % size for moving backward?
+Because:
+
+If you're at index 0 and subtract 1, you get -1 (invalid)
+
+Adding size before % size ensures it wraps back to the last index
+
+Example for size = 4:
+
+front = 0 → (0 - 1 + 4) % 4 = 3
+
+✅ Wraps backward
+
+
+Use:
+
+(index + 1) % size to go forward
+
+(index - 1 + size) % size to go backward
+
+
+
+
+
+
+# To see the difference between operations (e.g., enqueueFront vs enqueueRear, dequeueFront vs dequeueRear), you just need to test them in specific sequences using your menu.
+
+Here’s how you can run your code and observe the differences clearly:
+
+✅ Test Scenario to See the Difference
+▶️ Step-by-step Example:
+
+
+> Select option 1: Enqueue at REAR
+Enter: 10
+
+> Select option 1: Enqueue at REAR
+Enter: 20
+
+> Select option 3: Enqueue at FRONT
+Enter: 5
+
+> Select option 8: Display
+
+Expected Output:
+All values in the Deque are: 0 10 20 0 5
+
+Explanation:
+
+enqueueRear(10) adds 10 at index 0.
+
+enqueueRear(20) adds 20 at index 1.
+
+enqueueFront(5) adds 5 at index 4 (wraps around due to circular nature).
+
+You can now see the effect of front and rear insertions.
+
+
+
+🧾 Now try:
+
+> Select option 4: Dequeue from REAR
+This will remove 20 (last inserted at rear).
+
+Then:
+> Select option 2: Dequeue from FRONT
+This will remove 5 (last inserted at front).
+
+Now display again to see the changed state.
+
+💡 Tips to Compare:
+Action	Index Affected	Description
+enqueueRear(x)	rear = (rear+1)%5	Inserts at the "back"
+enqueueFront(x)	front = (front-1+5)%5	Inserts at the "front" (wraps)
+dequeueFront()	front = (front+1)%5	Removes from the front
+dequeueRear()	rear = (rear-1+5)%5	Removes from the rear (wraps)
+
+🧪 Suggested Custom Test
+You can create a minimal input sequence to try:
+
+enqueueRear(100)
+
+enqueueRear(200)
+
+enqueueFront(50)
+
+enqueueFront(25)
+
+display()
+
+dequeueRear() → expect 200
+
+dequeueFront() → expect 25
+
+display()
+

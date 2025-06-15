@@ -1,0 +1,53 @@
+✅ Algorithm for Circular Queue (Size = 5)
+Initialize Queue:
+Set front = -1 and rear = -1
+
+Create an array arr of size 5
+
+Set itemCount = 0
+
+isEmpty():
+If front == -1 and rear == -1, return true (Queue is empty)
+
+Else return false
+
+isFull():
+If (rear + 1) % 5 == front, return true (Queue is full)
+
+Else return false
+
+enqueue(value):
+If queue is full, print "Queue is full" and stop
+
+Else if queue is empty (front == -1 and rear == -1), set front = 0 and rear = 0
+
+Else set rear = (rear + 1) % 5
+
+Insert value at arr[rear]
+
+Increase itemCount by 1
+
+dequeue():
+If queue is empty, print "Queue is empty" and stop
+
+Else if only one element (front == rear):
+
+Take value at arr[front]
+
+Reset front = rear = -1
+
+Else:
+
+Take value at arr[front]
+
+Set front = (front + 1) % 5
+
+Decrease itemCount by 1
+
+Return the taken value
+
+count():
+Return itemCount
+
+display():
+Print all elements in the array from index 0 to 4 (entire array)

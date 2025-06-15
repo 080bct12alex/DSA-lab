@@ -1,0 +1,7 @@
+| Feature                | Normal Recursion          | Tail Recursion            |
+| ---------------------- | ------------------------- | ------------------------- |
+| Last action            | More code after call      | Recursive call is last    |
+| Stack usage            | High                      | Low (if optimized)        |
+| Compiler optimization  | No automatic optimization | Possible with TCO         |
+| Risk of stack overflow | Higher                    | Lower                     |
+| Example                | `return n * f(n-1)`       | `return f(n-1, n*result)` |

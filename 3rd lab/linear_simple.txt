@@ -1,0 +1,49 @@
+Algorithm for Linear Queue
+Initialize Queue:
+
+Set front = -1 and rear = -1
+
+Create an array arr with size 5
+
+isEmpty():
+
+If front == -1 and rear == -1, return true (queue is empty)
+
+Else return false
+
+isFull():
+
+If rear == 4, return true (queue is full)
+
+Else return false
+
+enqueue(value):
+
+If queue is full, print "Queue is full" and stop
+
+Else if queue is empty, set front = 0 and rear = 0
+
+Else increase rear by 1
+
+Insert value at arr[rear]
+
+dequeue():
+
+If queue is empty, print "Queue is empty" and stop
+
+Else if only one element (front == rear), take value at arr[front], reset front = rear = -1
+
+Else take value at arr[front] and increase front by 1
+
+Return the taken value
+
+count():
+
+If empty, return 0
+
+Else return rear - front + 1
+
+display():
+
+Print all elements in the array from 0 to 4
+

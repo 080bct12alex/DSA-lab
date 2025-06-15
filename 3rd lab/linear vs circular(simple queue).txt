@@ -1,0 +1,55 @@
+✅ Linear Queue vs circular queue (simple/normal):
+A Linear Queue:
+
+Has only rear insertion and front deletion.
+
+Once rear reaches the end of the array, it can't wrap around.
+
+
+
+
+🧠 Key Differences 
+Feature	                 Linear Queue	     Circular qeque
+Wrap-around allowed?	❌ No	            ✅ Yes
+
+
+
+
+
+Why?
+Linear (Normal) Queue normally supports:
+
+Enqueue at REAR (end)
+
+Dequeue at FRONT (beginning)
+
+Because the queue is linear, you can only add items at the rear and remove items from the front.
+Linear Queue is a FIFO (First In, First Out) structure.
+
+You always insert at the rear.
+
+You always remove from the front.
+
+The front moves forward with dequeue operations.
+
+Rear moves forward with enqueue operations.
+
+No wrap-around 
+
+
+no bidirectional operations.
+What if you want these operations?
+If you want enqueue at front and dequeue at rear (both ends operations), you need a Deque (Double Ended Queue), either:
+
+Linear deque (rare and inefficient due to shifting),
+
+Circular deque (more efficient, uses wrap-around),
+
+Or use a linked list based deque.
+
+Summary:
+Operation	                                                       Data Structure Required
+Enqueue Front & Dequeue Rear and Enqueue Rear & Dequeue Rear		Deque (Double Ended Queue)
+Enqueue Rear & Dequeue Front	                                    Normal Linear Queue
+
+

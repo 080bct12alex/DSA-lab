@@ -1,0 +1,119 @@
+Algorithm for Linear Deque Operations
+
+
+1. Enqueue at FRONT (Insert element at front)
+Goal: Insert a new element at the front of the deque.
+
+Steps:
+
+Check if the deque is full (rear == max size - 1).
+
+If full, print "Queue is full" and exit.
+
+If the deque is empty (front == -1 and rear == -1):
+
+Set front = 0 and rear = 0.
+
+Else if front == 0 (already at the leftmost position):
+
+Print "No space at front to enqueue" and exit (no shifting allowed).
+
+Else:
+
+Decrement front by 1 (front = front - 1).
+
+Insert the new element at arr[front].
+
+Increment the item count.
+
+2. Enqueue at REAR (Insert element at rear)
+Goal: Insert a new element at the rear of the deque.
+
+Steps:
+
+Check if the deque is full (rear == max size - 1).
+
+If full, print "Queue is full" and exit.
+
+If the deque is empty (front == -1 and rear == -1):
+
+Set front = 0 and rear = 0.
+
+Else:
+
+Increment rear by 1 (rear = rear + 1).
+
+Insert the new element at arr[rear].
+
+Increment the item count.
+
+3. Dequeue from FRONT (Remove element from front)
+Goal: Remove and return the element from the front of the deque.
+
+Steps:
+
+Check if the deque is empty (front == -1 and rear == -1).
+
+If empty, print "Queue is empty" and return 0 or an error value.
+
+Store the element at arr[front] to return later.
+
+Set arr[front] = 0 (optional clearing).
+
+If front == rear (only one element in deque):
+
+Reset front = -1 and rear = -1 (deque becomes empty).
+
+Else:
+
+Increment front by 1 (front = front + 1).
+
+Decrement the item count.
+
+Return the stored element.
+
+4. Dequeue from REAR (Remove element from rear)
+Goal: Remove and return the element from the rear of the deque.
+
+Steps:
+
+Check if the deque is empty (front == -1 and rear == -1).
+
+If empty, print "Queue is empty" and return 0 or an error value.
+
+Store the element at arr[rear] to return later.
+
+Set arr[rear] = 0 (optional clearing).
+
+If front == rear (only one element in deque):
+
+Reset front = -1 and rear = -1 (deque becomes empty).
+
+Else:
+
+Decrement rear by 1 (rear = rear - 1).
+
+Decrement the item count.
+
+Return the stored element.
+
+5. isEmpty()
+Return true if front == -1 and rear == -1, else false.
+
+6. isFull()
+Return true if rear == max size - 1, else false.
+
+
+
+
+
+
+To test your deque, try this sequence:
+enqueueRear(10)
+enqueueRear(20)
+enqueueFront(5)
+enqueueFront(3)
+display()  -> Expected: 3 5 10 20
+dequeueRear()  -> removes 20
+dequeueFront() -> removes 3
+display() -> Expected: 5 10

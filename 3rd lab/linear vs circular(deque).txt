@@ -1,0 +1,42 @@
+
+1. Basic Structure
+| Aspect                   | Circular Deque                                      | Linear Deque                                                      |
+| ------------------------ | --------------------------------------------------- | ----------------------------------------------------------------- |
+| **Array Usage**          | Uses array as circular buffer (wrap-around)         | Uses array as linear buffer (no wrap-around)                      |
+| **Indexes (front/rear)** | Front and rear move circularly (modulus array size) | Front and rear move linearly (no wrap-around)                     |
+| **Capacity Utilization** | Efficient: uses entire array space                  | Less efficient: once rear reaches end, no space to insert at rear |
+
+
+2. Insertion
+| Operation           | Circular Deque                              | Linear Deque                          |
+| ------------------- | ------------------------------------------- | ------------------------------------- |
+| **Insert at Rear**  | `rear = (rear + 1) % size` (wraps around)   | `rear++` (stops at array end)         |
+| **Insert at Front** | `front = (front - 1 + size) % size` (wraps) | `front--` only if front > 0 (no wrap) |
+
+3. Deletion
+| Operation             | Circular Deque                            | Linear Deque                    |
+| --------------------- | ----------------------------------------- | ------------------------------- |
+| **Delete from Front** | `front = (front + 1) % size` (wraps)      | `front++` (linear move forward) |
+| **Delete from Rear**  | `rear = (rear - 1 + size) % size` (wraps) | `rear--` (linear move backward) |
+
+
+4. Advantages
+| Circular Deque                            | Linear Deque                        |
+| ----------------------------------------- | ----------------------------------- |
+| Efficient space use — full array capacity | Simple to implement and understand  |
+| Supports continuous enqueue and dequeue   | Easier logic (no modulus operation) |
+| Wrap-around avoids wasted space           | Good for small or fixed usage cases |
+
+5. Disadvantages
+| Circular Deque                           | Linear Deque                            |
+| ---------------------------------------- | --------------------------------------- |
+| Slightly more complex to implement       | Wastes space after rear reaches end     |
+| Needs modulus operations (can be costly) | Cannot reuse space freed by front index |
+
+
+6. Use Cases
+Circular Deque:
+Used where you want to utilize fixed buffer space efficiently, like in CPU scheduling queues, real-time data streams, or buffering.
+
+Linear Deque:
+Suitable for simpler scenarios with limited or small buffer size, where wrap-around complexity is not desired.
