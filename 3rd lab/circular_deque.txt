@@ -1,158 +1,269 @@
-Write an algorithm for Double Ended Queue for following cases:
-1. Enqueue from FRONT end    //normal
-2. Dequeue from REAR end     //normal
+Algorithm for Circular Deque Operations
 
-3. Enqueue from FRONT end    //special
-4. Dequeue from REAR end     //special
+1. Initialize Deque
 
+Set front = -1, rear = -1
 
+Set all elements of array arr[5] to 0
 
+Set itemCount = 0
 
-#rear = rear - 1  VS   rear = (rear - 1 + size) % size
 
 
-It is used according to move forward or backward
-enqueueRear()	➡️ forward	Add at rear, move rear right	rear = (rear + 1) % size
-dequeueFront()	➡️ forward	Remove from front	            front = (front + 1) % size
-enqueueFront()	⬅️ backward	Add at front, move front left	front = (front - 1 + size) % size
-dequeueRear()	⬅️ backward	Remove from rear	            rear = (rear - 1 + size) % size
+---
 
-Note
-rear = (rear - 1 + size) % size
-It ensures:
+2. isEmpty()
 
-No negative index (important in C++)
+If front == -1 and rear == -1, return true
 
-Circular movement within array bounds
+Else return false
 
-Correct behavior for dequeueRear() or moving rear backward
 
 
+---
 
+3. isFull()
 
+If (rear + 1) % 5 == front, return true
 
-# Why is modular arithmetic like (rear - 1 + size) % size only used in dequeueRear or enqueueFront, and not in enqueueRear or dequeueFront?”
+Else return false
 
-✅ Short Answer:
-Because:
 
-enqueueRear and dequeueFront move forward → use (index + 1) % size
 
-enqueueFront and dequeueRear move backward → need (index - 1 + size) % size to wrap correctly
+---
 
+4. enqueueRear(value)
 
-enqueueRear()	➡️ forward	Add at rear, move rear right	rear = (rear + 1) % size
-dequeueFront()	➡️ forward	Remove from front	            front = (front + 1) % size
-enqueueFront()	⬅️ backward	Add at front, move front left	front = (front - 1 + size) % size
-dequeueRear()	⬅️ backward	Remove from rear	            rear = (rear - 1 + size) % size
+If isFull(), print "Queue is full", return
 
-🧠 Why (index + 1) % size for moving forward?
-Because:
+Else if isEmpty(), set front = rear = 0
 
-If you're at last index (rear == size - 1) and add 1, you must go to index 0
+Else set rear = (rear + 1) % 5
 
-(rear + 1) % size does exactly that
+Insert value at arr[rear]
 
-Example for size = 4:
+Increment itemCount
 
-rear = 3 → rear = (3 + 1) % 4 = 0
 
-✅ Wraps forward
 
+---
 
-🧠 Why (index - 1 + size) % size for moving backward?
-Because:
+5. enqueueFront(value) (Special)
 
-If you're at index 0 and subtract 1, you get -1 (invalid)
+If isFull(), print "Queue is full", return
 
-Adding size before % size ensures it wraps back to the last index
+Else if isEmpty(), set front = rear = 0
 
-Example for size = 4:
+Else set front = (front - 1 + 5) % 5 (wrap around)
 
-front = 0 → (0 - 1 + 4) % 4 = 3
+Insert value at arr[front]
 
-✅ Wraps backward
+Increment itemCount
 
 
-Use:
 
-(index + 1) % size to go forward
+---
 
-(index - 1 + size) % size to go backward
+6. dequeueFront()
 
+If isEmpty(), print "Queue is empty", return 0
 
+Else if front == rear:
 
+Store value at arr[front] in variable x
 
+Reset front = rear = -1
 
 
-# To see the difference between operations (e.g., enqueueFront vs enqueueRear, dequeueFront vs dequeueRear), you just need to test them in specific sequences using your menu.
+Else:
 
-Here’s how you can run your code and observe the differences clearly:
+Store value at arr[front] in x
 
-✅ Test Scenario to See the Difference
-▶️ Step-by-step Example:
+Set arr[front] = 0
 
+Update front = (front + 1) % 5
 
-> Select option 1: Enqueue at REAR
-Enter: 10
 
-> Select option 1: Enqueue at REAR
-Enter: 20
+Decrement itemCount
 
-> Select option 3: Enqueue at FRONT
-Enter: 5
+Return x
 
-> Select option 8: Display
 
-Expected Output:
-All values in the Deque are: 0 10 20 0 5
 
-Explanation:
+---
 
-enqueueRear(10) adds 10 at index 0.
+7. dequeueRear() (Special)
 
-enqueueRear(20) adds 20 at index 1.
+If isEmpty(), print "Queue is empty", return 0
 
-enqueueFront(5) adds 5 at index 4 (wraps around due to circular nature).
+Else if front == rear:
 
-You can now see the effect of front and rear insertions.
+Store value at arr[rear] in variable x
 
+Reset front = rear = -1
 
 
-🧾 Now try:
+Else:
 
-> Select option 4: Dequeue from REAR
-This will remove 20 (last inserted at rear).
+Store value at arr[rear] in x
 
-Then:
-> Select option 2: Dequeue from FRONT
-This will remove 5 (last inserted at front).
+Set arr[rear] = 0
 
-Now display again to see the changed state.
+Update rear = (rear - 1 + 5) % 5 (wrap around)
 
-💡 Tips to Compare:
-Action	Index Affected	Description
-enqueueRear(x)	rear = (rear+1)%5	Inserts at the "back"
-enqueueFront(x)	front = (front-1+5)%5	Inserts at the "front" (wraps)
-dequeueFront()	front = (front+1)%5	Removes from the front
-dequeueRear()	rear = (rear-1+5)%5	Removes from the rear (wraps)
 
-🧪 Suggested Custom Test
-You can create a minimal input sequence to try:
+Decrement itemCount
 
-enqueueRear(100)
+Return x
 
-enqueueRear(200)
 
-enqueueFront(50)
 
-enqueueFront(25)
+---
 
-display()
+8. count()
 
-dequeueRear() → expect 200
+Return itemCount
 
-dequeueFront() → expect 25
 
-display()
+
+---
+
+9. display()
+
+Loop through the array arr[0] to arr[4]
+
+Print all values (including 0s)
+
+
+
+
+
+simple algorithm 
+Algorithm: Enqueue at FRONT
+
+1. If the deque is full:
+      Display "Queue is full" and return.
+
+2. If the deque is empty:
+      Set front = 0 and rear = 0.
+
+3. Else:
+      front = (front - 1 + size) % size
+      // Use modulo to wrap around circularly
+
+4. Insert val at arr[front]
+
+5. Increment itemCount
+
+
+---
+
+✅ Algorithm: Enqueue at REAR
+
+1. If the deque is full:
+      Display "Queue is full" and return.
+
+2. If the deque is empty:
+      Set front = 0 and rear = 0.
+
+3. Else:
+      rear = (rear + 1) % size
+      // Use modulo to wrap around circularly
+
+4. Insert val at arr[rear]
+
+5. Increment itemCount
+
+
+---
+
+
+Algorithm: Dequeue from FRONT
+
+1. If the deque is empty:
+      Display "Queue is empty" and return 0.
+
+2. Store arr[front] in variable x
+
+3. If front == rear:
+      // Only one element
+      Set front = -1 and rear = -1
+
+4. Else:
+      front = (front + 1) % size
+
+5. Set arr[old front] = 0
+
+6. Decrement itemCount
+
+7. Return x
+
+
+---
+
+✅ Algorithm: Dequeue from REAR
+
+1. If the deque is empty:
+      Display "Queue is empty" and return 0.
+
+2. Store arr[rear] in variable x
+
+3. If rear == front:
+      // Only one element
+      Set rear = -1 and front = -1
+
+4. Else:
+      rear = (rear - 1 + size) % size
+      // Wrap around backward
+
+5. Set arr[old rear] = 0
+
+6. Decrement itemCount
+
+7. Return x
+
+
+
+Algorithm: isEmpty()
+
+1. If front == -1 and rear == -1:
+      Return true
+
+2. Else:
+      Return false
+
+
+---
+
+✅ Algorithm: isFull()
+
+1. If (rear + 1) % size == front:
+      Return true
+
+2. Else:
+      Return false
+
+
+---
+
+✅ Algorithm: count()
+
+1. Return itemCount
+
+
+---
+
+✅ Algorithm: display()
+
+1. Loop i from 0 to size - 1:
+      Print arr[i]
+
+
+
+
+
+
+
+
+
 
