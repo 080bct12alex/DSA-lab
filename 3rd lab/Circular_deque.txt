@@ -1,0 +1,269 @@
+Algorithm for Circular Deque Operations
+
+1. Initialize Deque
+
+Set front = -1, rear = -1
+
+Set all elements of array arr[5] to 0
+
+Set itemCount = 0
+
+
+
+---
+
+2. isEmpty()
+
+If front == -1 and rear == -1, return true
+
+Else return false
+
+
+
+---
+
+3. isFull()
+
+If (rear + 1) % 5 == front, return true
+
+Else return false
+
+
+
+---
+
+4. enqueueRear(value)
+
+If isFull(), print "Queue is full", return
+
+Else if isEmpty(), set front = rear = 0
+
+Else set rear = (rear + 1) % 5
+
+Insert value at arr[rear]
+
+Increment itemCount
+
+
+
+---
+
+5. enqueueFront(value) (Special)
+
+If isFull(), print "Queue is full", return
+
+Else if isEmpty(), set front = rear = 0
+
+Else set front = (front - 1 + 5) % 5 (wrap around)
+
+Insert value at arr[front]
+
+Increment itemCount
+
+
+
+---
+
+6. dequeueFront()
+
+If isEmpty(), print "Queue is empty", return 0
+
+Else if front == rear:
+
+Store value at arr[front] in variable x
+
+Reset front = rear = -1
+
+
+Else:
+
+Store value at arr[front] in x
+
+Set arr[front] = 0
+
+Update front = (front + 1) % 5
+
+
+Decrement itemCount
+
+Return x
+
+
+
+---
+
+7. dequeueRear() (Special)
+
+If isEmpty(), print "Queue is empty", return 0
+
+Else if front == rear:
+
+Store value at arr[rear] in variable x
+
+Reset front = rear = -1
+
+
+Else:
+
+Store value at arr[rear] in x
+
+Set arr[rear] = 0
+
+Update rear = (rear - 1 + 5) % 5 (wrap around)
+
+
+Decrement itemCount
+
+Return x
+
+
+
+---
+
+8. count()
+
+Return itemCount
+
+
+
+---
+
+9. display()
+
+Loop through the array arr[0] to arr[4]
+
+Print all values (including 0s)
+
+
+
+
+
+simple algorithm 
+Algorithm: Enqueue at FRONT
+
+1. If the deque is full:
+      Display "Queue is full" and return.
+
+2. If the deque is empty:
+      Set front = 0 and rear = 0.
+
+3. Else:
+      front = (front - 1 + size) % size
+      // Use modulo to wrap around circularly
+
+4. Insert val at arr[front]
+
+5. Increment itemCount
+
+
+---
+
+✅ Algorithm: Enqueue at REAR
+
+1. If the deque is full:
+      Display "Queue is full" and return.
+
+2. If the deque is empty:
+      Set front = 0 and rear = 0.
+
+3. Else:
+      rear = (rear + 1) % size
+      // Use modulo to wrap around circularly
+
+4. Insert val at arr[rear]
+
+5. Increment itemCount
+
+
+---
+
+
+Algorithm: Dequeue from FRONT
+
+1. If the deque is empty:
+      Display "Queue is empty" and return 0.
+
+2. Store arr[front] in variable x
+
+3. If front == rear:
+      // Only one element
+      Set front = -1 and rear = -1
+
+4. Else:
+      front = (front + 1) % size
+
+5. Set arr[old front] = 0
+
+6. Decrement itemCount
+
+7. Return x
+
+
+---
+
+✅ Algorithm: Dequeue from REAR
+
+1. If the deque is empty:
+      Display "Queue is empty" and return 0.
+
+2. Store arr[rear] in variable x
+
+3. If rear == front:
+      // Only one element
+      Set rear = -1 and front = -1
+
+4. Else:
+      rear = (rear - 1 + size) % size
+      // Wrap around backward
+
+5. Set arr[old rear] = 0
+
+6. Decrement itemCount
+
+7. Return x
+
+
+
+Algorithm: isEmpty()
+
+1. If front == -1 and rear == -1:
+      Return true
+
+2. Else:
+      Return false
+
+
+---
+
+✅ Algorithm: isFull()
+
+1. If (rear + 1) % size == front:
+      Return true
+
+2. Else:
+      Return false
+
+
+---
+
+✅ Algorithm: count()
+
+1. Return itemCount
+
+
+---
+
+✅ Algorithm: display()
+
+1. Loop i from 0 to size - 1:
+      Print arr[i]
+
+
+
+
+
+
+
+
+
+
