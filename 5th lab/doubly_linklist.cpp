@@ -134,7 +134,7 @@ public:
             return;
         }
         if (position == 1) {
-            prependNode(n);
+            insertNodeAtBeginning(n);
             return;
         }
 
@@ -261,12 +261,10 @@ int main() {
         cout << "4. Print List" << endl;
         cout << "5. Insert Before Specific Node" << endl;
         cout << "6. Insert at Nth Position" << endl;
-
-        // DELETE OPERATIONS IN YOUR ORDER
-        cout << "7. a. Delete Node from Beginning of the List" << endl;
-        cout << "8. b. Delete Node from End of the List" << endl;
-        cout << "9. c. Delete Node After Specific Node" << endl;
-        cout << "10. d. Delete Node from Nth Position of the List" << endl;
+        cout << "7. Delete Node from Beginning of the List" << endl;
+        cout << "8. Delete Node from End of the List" << endl;
+        cout << "9. Delete Node After Specific Node" << endl;
+        cout << "10.Delete Node from Nth Position of the List" << endl;
 
         cin >> option;
         Node* n1 = new Node();
@@ -280,7 +278,7 @@ int main() {
             cin >> key1 >> data1;
             n1->key = key1;
             n1->data = data1;
-            obj.appendNode(n1);
+            obj.insertNodeAtEnd(n1);
             break;
 
         case 2:
@@ -288,7 +286,7 @@ int main() {
             cin >> key1 >> data1;
             n1->key = key1;
             n1->data = data1;
-            obj.prependNode(n1);
+            obj.insertNodeAtBeginning(n1);
             break;
 
         case 3:
