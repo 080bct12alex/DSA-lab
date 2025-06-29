@@ -108,7 +108,7 @@ public:
     }
 };
 
-// Helper function to create polynomial from user input
+//  create polynomial from user input
 void createPolynomial(SinglyLinkedList& poly) {
     int n, power, coeff;
     cout << "Enter number of terms in polynomial: ";
