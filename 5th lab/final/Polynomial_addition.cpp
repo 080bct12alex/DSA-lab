@@ -1,146 +1,150 @@
 #include <iostream>
-#include <cmath>
 using namespace std;
 
 class Node {
 public:
-    int coeff;
-    int power;
+    int key;    // power of x
+    int data;   // coefficient
     Node* next;
 
-    Node(int c, int p) {
-        coeff = c;
-        power = p;
+    Node() {
+        key = 0;
+        data = 0;
+        next = NULL;
+    }
+
+    Node(int k, int d) {
+        key = k;
+        data = d;
         next = NULL;
     }
 };
 
-class Polynomial {
+class SinglyLinkedList {
 public:
     Node* head;
 
-    Polynomial() {
+    SinglyLinkedList() {
         head = NULL;
     }
 
-    // Insert term in descending order of power
-    void insertTerm(int coeff, int power) {
-        if (coeff == 0) return;
-
-        Node* newNode = new Node(coeff, power);
-
-        if (head == NULL || power > head->power) {
-            newNode->next = head;
-            head = newNode;
+    // Append node at the end
+    void appendNode(Node* n) {
+        if (head == NULL) {
+            head = n;
         } else {
             Node* temp = head;
-            Node* prev = NULL;
-
-            while (temp != NULL && temp->power > power) {
-                prev = temp;
+            while (temp->next != NULL)
                 temp = temp->next;
-            }
-
-            if (temp != NULL && temp->power == power) {
-                temp->coeff += coeff;
-                delete newNode;
-
-                if (temp->coeff == 0) {
-                    if (prev)
-                        prev->next = temp->next;
-                    else
-                        head = temp->next;
-                    delete temp;
-                }
-            } else {
-                newNode->next = temp;
-                if (prev)
-                    prev->next = newNode;
-                else
-                    head = newNode;
-            }
+            temp->next = n;
         }
     }
 
-    void display() {
-        if (!head) {
-            cout << "0\n";
+    // Print polynomial
+    void printPolynomial() {
+        if (head == NULL) {
+            cout << "0";
             return;
         }
-
         Node* temp = head;
+        bool firstTerm = true;
         while (temp != NULL) {
-            cout << temp->coeff << "x^" << temp->power;
-            if (temp->next) cout << " + ";
+            if (temp->data != 0) {
+                if (!firstTerm && temp->data > 0) cout << " + ";
+                else if (temp->data < 0) cout << " - ";
+
+                int absCoeff = temp->data < 0 ? -temp->data : temp->data;
+                if (absCoeff != 1 || temp->key == 0)
+                    cout << absCoeff;
+                if (temp->key > 0) {
+                    cout << "x";
+                    if (temp->key > 1)
+                        cout << "^" << temp->key;
+                }
+                firstTerm = false;
+            }
             temp = temp->next;
         }
-        cout << endl;
+        if (firstTerm) cout << "0"; // All coeff were zero
     }
 
-    // Add two polynomials
-    static Polynomial add(Polynomial& p1, Polynomial& p2) {
-        Polynomial result;
-        Node* a = p1.head;
-        Node* b = p2.head;
+    // Add two polynomials (this and other)
+    static SinglyLinkedList addPolynomials(SinglyLinkedList& p1, SinglyLinkedList& p2) {
+        SinglyLinkedList result;
 
-        while (a != NULL || b != NULL) {
-            if (a == NULL) {
-                result.insertTerm(b->coeff, b->power);
-                b = b->next;
-            } else if (b == NULL) {
-                result.insertTerm(a->coeff, a->power);
-                a = a->next;
-            } else if (a->power == b->power) {
-                result.insertTerm(a->coeff + b->coeff, a->power);
-                a = a->next;
-                b = b->next;
-            } else if (a->power > b->power) {
-                result.insertTerm(a->coeff, a->power);
-                a = a->next;
+        Node* ptr1 = p1.head;
+        Node* ptr2 = p2.head;
+
+        // We assume the polynomial linked lists are sorted by descending power.
+        // If not sorted, sorting is needed before addition.
+
+        while (ptr1 != NULL && ptr2 != NULL) {
+            if (ptr1->key == ptr2->key) {
+                int sumCoeff = ptr1->data + ptr2->data;
+                if (sumCoeff != 0)
+                    result.appendNode(new Node(ptr1->key, sumCoeff));
+                ptr1 = ptr1->next;
+                ptr2 = ptr2->next;
+            } else if (ptr1->key > ptr2->key) {
+                result.appendNode(new Node(ptr1->key, ptr1->data));
+                ptr1 = ptr1->next;
             } else {
-                result.insertTerm(b->coeff, b->power);
-                b = b->next;
+                result.appendNode(new Node(ptr2->key, ptr2->data));
+                ptr2 = ptr2->next;
             }
+        }
+
+        // Add remaining terms
+        while (ptr1 != NULL) {
+            result.appendNode(new Node(ptr1->key, ptr1->data));
+            ptr1 = ptr1->next;
+        }
+        while (ptr2 != NULL) {
+            result.appendNode(new Node(ptr2->key, ptr2->data));
+            ptr2 = ptr2->next;
         }
 
         return result;
     }
 };
 
-// ---------- Main Function ----------
+// Helper function to create polynomial from user input
+void createPolynomial(SinglyLinkedList& poly) {
+    int n, power, coeff;
+    cout << "Enter number of terms in polynomial: ";
+    cin >> n;
+    cout << "Enter terms in descending order of powers:\n";
+    for (int i = 0; i < n; i++) {
+        cout << "Power: ";
+        cin >> power;
+        cout << "Coefficient: ";
+        cin >> coeff;
+        poly.appendNode(new Node(power, coeff));
+    }
+}
+
 int main() {
-    Polynomial p1, p2;
+    SinglyLinkedList poly1, poly2, sum;
 
-    int n1, n2;
-    cout << "Enter number of terms for first polynomial: ";
-    cin >> n1;
+    cout << "Create first polynomial:\n";
+    createPolynomial(poly1);
 
-    for (int i = 0; i < n1; i++) {
-        int coeff, power;
-        cout << "Enter coefficient and power for term " << i + 1 << ": ";
-        cin >> coeff >> power;
-        p1.insertTerm(coeff, power);
-    }
+    cout << "\nCreate second polynomial:\n";
+    createPolynomial(poly2);
 
-    cout << "Enter number of terms for second polynomial: ";
-    cin >> n2;
+    cout << "\nFirst Polynomial: ";
+    poly1.printPolynomial();
+    cout << endl;
 
-    for (int i = 0; i < n2; i++) {
-        int coeff, power;
-        cout << "Enter coefficient and power for term " << i + 1 << ": ";
-        cin >> coeff >> power;
-        p2.insertTerm(coeff, power);
-    }
+    cout << "Second Polynomial: ";
+    poly2.printPolynomial();
+    cout << endl;
 
-    cout << "\nPolynomial 1: ";
-    p1.display();
+    sum = SinglyLinkedList::addPolynomials(poly1, poly2);
 
-    cout << "Polynomial 2: ";
-    p2.display();
-
-    Polynomial sum = Polynomial::add(p1, p2);
-    cout << "Sum: ";
-    sum.display();
+    cout << "Sum of Polynomials: ";
+    sum.printPolynomial();
+    cout << endl;
 
     return 0;
 }
