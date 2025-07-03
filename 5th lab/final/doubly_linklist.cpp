@@ -8,13 +8,6 @@ public:
     Node* next;
     Node* previous;
 
-    Node() {
-        key = 0;
-        data = 0;
-        next = NULL;
-        previous = NULL;
-    }
-
     Node(int k, int d) {
         key = k;
         data = d;
@@ -23,11 +16,11 @@ public:
     }
 };
 
-class DoublyLinkedList {
+class doublyLinkedList {
 public:
     Node* head;
 
-    DoublyLinkedList() {
+    doublyLinkedList() {
         head = NULL;
     }
 
@@ -41,12 +34,12 @@ public:
         return NULL;
     }
 
-    // a. INSERT NODE AT BEGINNING
-    void insertNodeAtBeginning(Node* n) {
-        if (nodeExists(n->key)) {
-            cout << "Node already exists with key: " << n->key << endl;
+    void insertNodeAtBeginning(int key, int data) {
+        if (nodeExists(key)) {
+            cout << "Node already exists with key " << key << endl;
             return;
         }
+        Node* n = new Node(key, data);
         if (head == NULL) {
             head = n;
         } else {
@@ -54,15 +47,16 @@ public:
             n->next = head;
             head = n;
         }
-        cout << "Node inserted at beginning." << endl;
+        cout << "Inserted at beginning: (" << key << "," << data << ")\n";
+        printList();
     }
 
-    // b. INSERT NODE AT END
-    void insertNodeAtEnd(Node* n) {
-        if (nodeExists(n->key)) {
-            cout << "Node already exists with key: " << n->key << endl;
+    void insertNodeAtEnd(int key, int data) {
+        if (nodeExists(key)) {
+            cout << "Node already exists with key " << key << endl;
             return;
         }
+        Node* n = new Node(key, data);
         if (head == NULL) {
             head = n;
         } else {
@@ -72,43 +66,43 @@ public:
             ptr->next = n;
             n->previous = ptr;
         }
-        cout << "Node inserted at end." << endl;
+        cout << "Inserted at end: (" << key << "," << data << ")\n";
+        printList();
     }
 
-    // c. INSERT NODE AFTER SPECIFIC NODE
-    void insertNodeAfter(int k, Node* n) {
+    void insertNodeAfter(int k, int key, int data) {
         Node* ptr = nodeExists(k);
         if (ptr == NULL) {
-            cout << "No node exists with key: " << k << endl;
+            cout << "No node exists with key " << k << endl;
             return;
         }
-        if (nodeExists(n->key)) {
-            cout << "Node already exists with key: " << n->key << endl;
+        if (nodeExists(key)) {
+            cout << "Node already exists with key " << key << endl;
             return;
         }
-
+        Node* n = new Node(key, data);
         Node* nextNode = ptr->next;
         ptr->next = n;
         n->previous = ptr;
         n->next = nextNode;
         if (nextNode != NULL)
             nextNode->previous = n;
-
-        cout << "Node inserted after key " << k << "." << endl;
+        cout << "Inserted (" << key << "," << data << ") after key " << k << endl;
+        printList();
     }
 
-    // d. INSERT NODE BEFORE SPECIFIC NODE
-    void insertNodeBefore(int k, Node* n) {
+    void insertNodeBefore(int k, int key, int data) {
         Node* ptr = nodeExists(k);
         if (ptr == NULL) {
-            cout << "No node exists with key: " << k << endl;
+            cout << "No node exists with key " << k << endl;
             return;
         }
-        if (nodeExists(n->key)) {
-            cout << "Node already exists with key: " << n->key << endl;
+        if (nodeExists(key)) {
+            cout << "Node already exists with key " << key << endl;
             return;
         }
 
+        Node* n = new Node(key, data);
         Node* prevNode = ptr->previous;
         n->next = ptr;
         ptr->previous = n;
@@ -121,43 +115,44 @@ public:
             n->previous = prevNode;
         }
 
-        cout << "Node inserted before key " << k << "." << endl;
+        cout << "Inserted (" << key << "," << data << ") before key " << k << endl;
+        printList();
     }
 
-    // e. DELETE NODE FROM BEGINNING
     void deleteFromBeginning() {
         if (head == NULL) {
-            cout << "List is empty." << endl;
-        } else {
-            int deletedKey = head->key;
-            head = head->next;
-            if (head != NULL)
-                head->previous = NULL;
-            cout << "Node with key " << deletedKey << " deleted from beginning." << endl;
+            cout << "List is empty.\n";
+            return;
         }
+        int deletedKey = head->key;
+        head = head->next;
+        if (head != NULL)
+            head->previous = NULL;
+        cout << "Deleted from beginning: key " << deletedKey << endl;
+        printList();
     }
 
-    // f. DELETE NODE FROM END
     void deleteFromEnd() {
         if (head == NULL) {
-            cout << "List is empty." << endl;
+            cout << "List is empty.\n";
+            return;
         } else if (head->next == NULL) {
-            cout << "Node with key " << head->key << " deleted from end." << endl;
+            cout << "Deleted from end: key " << head->key << endl;
             head = NULL;
         } else {
             Node* ptr = head;
             while (ptr->next != NULL)
                 ptr = ptr->next;
             ptr->previous->next = NULL;
-            cout << "Node with key " << ptr->key << " deleted from end." << endl;
+            cout << "Deleted from end: key " << ptr->key << endl;
         }
+        printList();
     }
 
-    // g. DELETE NODE AFTER SPECIFIC NODE
     void deleteNodeAfter(int k) {
         Node* ptr = nodeExists(k);
         if (ptr == NULL || ptr->next == NULL) {
-            cout << "No node found after key " << k << "." << endl;
+            cout << "No node found after key " << k << endl;
             return;
         }
 
@@ -166,14 +161,15 @@ public:
         ptr->next = nextNode;
         if (nextNode != NULL)
             nextNode->previous = ptr;
-        cout << "Node after key " << k << " deleted." << endl;
+
+        cout << "Deleted node after key " << k << ": key " << delNode->key << endl;
+        printList();
     }
 
-    // h. DELETE NODE BEFORE SPECIFIC NODE
     void deleteNodeBefore(int k) {
         Node* ptr = nodeExists(k);
         if (ptr == NULL || ptr->previous == NULL) {
-            cout << "No node exists before key " << k << "." << endl;
+            cout << "No node exists before key " << k << endl;
             return;
         }
 
@@ -188,116 +184,38 @@ public:
             ptr->previous = prevNode;
         }
 
-        cout << "Node before key " << k << " deleted." << endl;
+        cout << "Deleted node before key " << k << ": key " << delNode->key << endl;
+        printList();
     }
 
     void printList() {
         if (head == NULL) {
-            cout << "List is empty." << endl;
-        } else {
-            cout << "Doubly Linked List: ";
-            Node* temp = head;
-            while (temp != NULL) {
-                cout << "(" << temp->key << "," << temp->data << ") <=> ";
-                temp = temp->next;
-            }
-            cout << "NULL" << endl;
+            cout << "List is empty.\n";
+            return;
         }
+        cout << "List: ";
+        Node* temp = head;
+        while (temp != NULL) {
+            cout << "(" << temp->key << "," << temp->data << ") <=> ";
+            temp = temp->next;
+        }
+        cout << "NULL\n";
     }
 };
 
 int main() {
-    DoublyLinkedList obj;
-    int option, key1, k1, data1;
-    Node* n1 = nullptr;
+    doublyLinkedList obj;
 
-    do {
-        cout << "\nWhat operation do you want to perform? Enter 0 to exit." << endl;
-        cout << "1. Insert Node at Beginning" << endl;
-        cout << "2. Insert Node at End" << endl;
-        cout << "3. Insert Node After Specific Node" << endl;
-        cout << "4. Insert Node Before Specific Node" << endl;
-        cout << "5. Delete Node from Beginning" << endl;
-        cout << "6. Delete Node from End" << endl;
-        cout << "7. Delete Node After Specific Node" << endl;
-        cout << "8. Delete Node Before Specific Node" << endl;
-        cout << "9. Print List" << endl;
+    obj.insertNodeAtBeginning(1, 10);
+    obj.insertNodeAtBeginning(2, 20);
+    obj.insertNodeAtEnd(3, 30);
+    obj.insertNodeAfter(1, 4, 40);
+    obj.insertNodeBefore(3, 5, 50);
 
-        cin >> option;
-
-        switch (option) {
-        case 0:
-            break;
-
-        case 1:
-            n1 = new Node();
-            cout << "Enter key and data: ";
-            cin >> key1 >> data1;
-            n1->key = key1;
-            n1->data = data1;
-            obj.insertNodeAtBeginning(n1);
-            break;
-
-        case 2:
-            n1 = new Node();
-            cout << "Enter key and data: ";
-            cin >> key1 >> data1;
-            n1->key = key1;
-            n1->data = data1;
-            obj.insertNodeAtEnd(n1);
-            break;
-
-        case 3:
-            n1 = new Node();
-            cout << "Enter key of existing node: ";
-            cin >> k1;
-            cout << "Enter key and data of new node: ";
-            cin >> key1 >> data1;
-            n1->key = key1;
-            n1->data = data1;
-            obj.insertNodeAfter(k1, n1);
-            break;
-
-        case 4:
-            n1 = new Node();
-            cout << "Enter key to insert before: ";
-            cin >> k1;
-            cout << "Enter key and data of new node: ";
-            cin >> key1 >> data1;
-            n1->key = key1;
-            n1->data = data1;
-            obj.insertNodeBefore(k1, n1);
-            break;
-
-        case 5:
-            obj.deleteFromBeginning();
-            break;
-
-        case 6:
-            obj.deleteFromEnd();
-            break;
-
-        case 7:
-            cout << "Enter key to delete after: ";
-            cin >> k1;
-            obj.deleteNodeAfter(k1);
-            break;
-
-        case 8:
-            cout << "Enter key to delete before: ";
-            cin >> k1;
-            obj.deleteNodeBefore(k1);
-            break;
-
-        case 9:
-            obj.printList();
-            break;
-
-        default:
-            cout << "Invalid option. Try again." << endl;
-        }
-
-    } while (option != 0);
+    obj.deleteFromBeginning();
+    obj.deleteFromEnd();
+    obj.deleteNodeAfter(2);
+    obj.deleteNodeBefore(3);
 
     return 0;
 }
